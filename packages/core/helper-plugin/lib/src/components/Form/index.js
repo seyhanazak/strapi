@@ -1,27 +1,27 @@
-import React, { useEffect } from 'react';
-import { Form, useFormikContext, getIn } from 'formik';
+import React, { useEffect, useRef } from 'react';
+import { Form, useFormikContext } from 'formik';
 
 const FormWithFocus = props => {
+  const formRef = useRef(null);
   const { isSubmitting, isValidating, errors, touched } = useFormikContext();
 
   useEffect(() => {
     if (isSubmitting && !isValidating) {
-      const errorNames = Object.keys(touched).filter(error => getIn(errors, error));
+      const errorsInForm = formRef.current.querySelectorAll('[data-strapi-field-error]');
 
-      if (errorNames.length) {
-        let errorEl;
+      if (errorsInForm.length > 0) {
+        const firstError = errorsInForm[0];
+        const describingId = firstError.getAttribute('id');
+        const formElementInError = formRef.current.querySelector(
+          `[aria-describedby="${describingId}"]`
+        );
 
-        errorNames.forEach(errorKey => {
-          const selector = `[name="${errorKey}"]`;
-
-          if (!errorEl) {
-            errorEl = document.querySelector(selector);
-          }
-        });
-
-        errorEl.focus();
+        if (formElementInError) {
+          formElementInError.focus();
+        }
       }
     }
+
     if (!isSubmitting && !isValidating && Object.keys(errors).length) {
       const el = document.getElementById('global-form-error');
 
@@ -31,7 +31,7 @@ const FormWithFocus = props => {
     }
   }, [errors, isSubmitting, isValidating, touched]);
 
-  return <Form {...props} noValidate />;
+  return <Form ref={formRef} {...props} noValidate />;
 };
 
 export default FormWithFocus;

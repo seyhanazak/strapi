@@ -34,6 +34,7 @@
   "peerDependencies": {
     "immer": "9.0.5",
     "qs": "6.10.1",
+    "formik": "^2.2.6",
     "react-select": "^4.0.2"
   },
   "devDependencies": {
