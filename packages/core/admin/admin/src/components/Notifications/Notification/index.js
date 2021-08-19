@@ -62,7 +62,12 @@ const Notification = ({ dispatch, notification }) => {
   }, [blockTransition, handleClose, timeout]);
 
   return (
-    <NotificationWrapper centered={centered} color={types[type].color}>
+    <NotificationWrapper
+      centered={centered}
+      color={types[type].color}
+      aria-live="polite"
+      role="status"
+    >
       <Padded top left right bottom size="smd">
         <Flex alignItems="center" justifyContent="space-between">
           <IconWrapper>
