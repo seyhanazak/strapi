@@ -1,9 +1,13 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch, Redirect, useLocation } from 'react-router-dom';
 import { CheckPagePermissions, LoadingIndicatorPage, NotFound } from '@strapi/helper-plugin';
+// FIXME
+import 'bootstrap/dist/css/bootstrap.css';
+import { ThemeProvider } from 'styled-components';
 import permissions from '../../../permissions';
 import DragLayer from '../../components/DragLayer';
 import ModelsContext from '../../contexts/ModelsContext';
+import themes from '../../../themes';
 import CollectionTypeRecursivePath from '../CollectionTypeRecursivePath';
 import ComponentSettingsView from '../ComponentSetttingsView';
 import NoContentType from '../NoContentType';
@@ -85,4 +89,8 @@ const App = () => {
   );
 };
 
-export default App;
+export default () => (
+  <ThemeProvider theme={themes}>
+    <App />
+  </ThemeProvider>
+);
